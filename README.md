@@ -18,3 +18,5 @@ The table shows a certain category and each type's total number of people with
 diabetes. For example, for Age, the table would show how many people in each age has diabetes.
 The widget allows the choice to choose which category to see. The different categories are 
 Sex, Age, Education, and Income. 
+
+Link: https://minjang.shinyapps.io/ps6-info201
