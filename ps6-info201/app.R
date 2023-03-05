@@ -118,22 +118,22 @@ server <- function(input, output) {
     
     output$table <- renderTable({
       if (input$category == "Sex") {
-        group_by(diab[diab$Diabetes_012 == 1 | diab$Diabetes_012 == 2], Sex) %>% 
+        group_by(diab[diab$Diabetes_012 == 1 | diab$Diabetes_012 == 2,], Sex) %>% 
           summarize(
             diabetes_patients = n()
           )     
       } else if (input$category == "Age") {
-        group_by(diab[diab$Diabetes_012 == 1 | diab$Diabetes_012 == 2], Age) %>% 
+        group_by(diab[diab$Diabetes_012 == 1 | diab$Diabetes_012 == 2,], Age) %>% 
           summarize(
             diabetes_patients = n()
           )
       } else if (input$category == "Education") {
-        group_by(diab[diab$Diabetes_012 == 1 | diab$Diabetes_012 == 2], Education) %>% 
+        group_by(diab[diab$Diabetes_012 == 1 | diab$Diabetes_012 == 2,], Education) %>% 
           summarize(
             diabetes_patients = n()
           )       
       } else {
-        group_by(diab[diab$Diabetes_012 == 1 | diab$Diabetes_012 == 2], Income) %>% 
+        group_by(diab[diab$Diabetes_012 == 1 | diab$Diabetes_012 == 2,], Income) %>% 
           summarize(
             diabetes_patients = n()
           )
