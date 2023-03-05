@@ -53,19 +53,38 @@ ui <- fluidPage(
           ),
           mainPanel(
             plotOutput("distPlot"),
-            textOutput("text")
+            textOutput("textplot")
           )
         )   
       ),
-      tabPanel("Table")
+      tabPanel(
+        "Table",
+        sidebarLayout(
+          sidebarPanel(
+            radioButtons(
+              "category",
+              "Category",
+              c(
+                "Sex",
+                "Age",
+                "Education",
+                "Income"
+              )
+            )
+          ),
+          mainPanel(
+            tableOutput("table")
+          )
+        )
+      )
     )
 )
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-  
-    diab <- read_csv("diabetes.csv")
 
+    diab <- read_csv("diabetes.csv")
+    
     output$distPlot <- renderPlot({
       ggplot(data = diab) +
         geom_histogram(mapping = aes(x = Income), bins = input$bins, fill = input$color) +
@@ -75,16 +94,19 @@ server <- function(input, output) {
         ggtitle("Income versus number of diabetes patients")
     })
     
-    output$text <- renderText({
-      n0 <- nrow(diab[diab$Diabetes_012 == 0 && !is.na(diab$Income),])
-      n1 <- nrow(diab[diab$Diabetes_012 == 1 && !is.na(diab$Income),])
-      n2 <- nrow(diab[diab$Diabetes_012 == 2 && !is.na(diab$Income),])
-      avg0 <- sum(diab[!is.na(diab$Income),])
-      paste("The average income")
+    output$textplot <- renderText({
+      paste("There are", input$bins, "bins in each graph, and they are", input$color)
     })
     
     output$sample <- renderTable({
       sample_n(diab, 6)
+    })
+    
+    output$table <- renderTable({
+      group_by(diab, Age) %>% 
+        summarize(
+          diabetes_patients = n()
+        )
     })
 }
 
