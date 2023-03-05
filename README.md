@@ -20,3 +20,5 @@ The widget allows the choice to choose which category to see. The different cate
 Sex, Age, Education, and Income. 
 
 Link: https://minjang.shinyapps.io/ps6-info201
+
+Time spent: 4 hours
