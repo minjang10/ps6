@@ -73,7 +73,8 @@ ui <- fluidPage(
             )
           ),
           mainPanel(
-            tableOutput("table")
+            tableOutput("table"),
+            textOutput("texttable")
           )
         )
       )
@@ -98,15 +99,45 @@ server <- function(input, output) {
       paste("There are", input$bins, "bins in each graph, and they are", input$color)
     })
     
+    output$texttable <- renderText({
+      if (input$category == "Sex") {
+        num <- nrow(diab[!is.na(diab$Sex), ])
+      } else if (input$category == "Age") {
+        num <- nrow(diab[!is.na(diab$Sex), ])
+      } else if (input$category == "Education") {
+        num <- nrow(diab[!is.na(diab$Education), ])    
+      } else {
+        num <- nrow(diab[!is.na(diab$Income), ])
+      }
+      paste("The", input$category, "category has", num, "non-missing observations")
+    })
+    
     output$sample <- renderTable({
       sample_n(diab, 6)
     })
     
     output$table <- renderTable({
-      group_by(diab, Age) %>% 
-        summarize(
-          diabetes_patients = n()
-        )
+      if (input$category == "Sex") {
+        group_by(diab, Sex) %>% 
+          summarize(
+            diabetes_patients = n()
+          )     
+      } else if (input$category == "Age") {
+        group_by(diab, Age) %>% 
+          summarize(
+            diabetes_patients = n()
+          )
+      } else if (input$category == "Education") {
+        group_by(diab, Education) %>% 
+          summarize(
+            diabetes_patients = n()
+          )       
+      } else {
+        group_by(diab, Income) %>% 
+          summarize(
+            diabetes_patients = n()
+          )
+      }
     })
 }
 
